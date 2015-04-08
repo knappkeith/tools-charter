@@ -1,15 +1,34 @@
 import os
 import sys
+import argparse
 sys.path.append(os.path.abspath('../'))
 from libs.sky_src import Sky_Source
 
+def ask_for_value():
+    return raw_input('enter')
+
+def convert():
+    pass
+
+# Enter a Help Description here
+help_description = '''This is a tool that will switch such and such feature on and off'''
+
+# Arguement Parser
+parser = argparse.ArgumentParser(description=help_description)
+parser.add_argument('--revert', action='store_true', help='to revert the action')
+parser.add_argument('-c', '--channel', type=int, default=ask_for_value, help='channel # to get details for')
+my_args = parser.parse_args()
+
+# Initialize Source
 my_source = Sky_Source()
 
 
+
+sys.exit(0)
 # THESE NEED TO BE UPDATED TO MAKE WORK
 file_name = my_source.get_full_path(os.path.join(my_source.config, 'config-dev-stable.js'))
 search_line = """window.config.app.manualNetworkDetailsLaunch"""
-new_line = """**/window.config.app.manualNetworkDetailsLaunch = '%s'; // e.g.: '030005', yielding launch type 3 / channel 13""" #% raw_input('Enter HEX Value:')
+new_line = """**/window.config.app.manualNetworkDetailsLaunch = '%s'; // e.g.: '030005', yielding launch type 3 / channel 13""" % my_args.channel
 server_line = """window.config.app.manualNetworkDetailsLaunch = '03000d'; // e.g.: '03000d', yielding launch type 3 / channel 13"""
 # END OF SETTINGS
 

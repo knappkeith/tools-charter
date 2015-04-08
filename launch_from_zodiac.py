@@ -3,6 +3,8 @@ from sys import argv, exit
 
 ui_dir = 'skyuisp'
 
+# Also add '&state=networkdetails' to the parameters of the URL
+
 # THESE NEED TO BE UPDATED TO MAKE WORK
 set_path = 'skyuisp/dest/configs/'
 set_name = 'config-dev-stable%s.js'

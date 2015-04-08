@@ -6,7 +6,7 @@ for line in a:
 a.close()
 keep_going = True
 while keep_going:
-	answer = raw_input('1 - ERRORs, 2 - Events, 3 - Log, 4 - All, 5 - EXIT, 6 - ReLoad File:')
+	answer = raw_input('1 - ERRORs, 2 - Events, 3 - Log, 4 - Warnings, 5 - All, 6 - ReLoad File, 7 - EXIT:')
 	print ""
 	if answer == '1':
 		filter = '[ERROR]'
@@ -17,7 +17,10 @@ while keep_going:
 	elif answer == '3':
 		filter = '[LOG]'
 		print "printing log"
-	elif answer =='5':
+	elif answer == '4':
+		filter = '[WARNING]'
+		print "printing warings"
+	elif answer =='7':
 		answer = ""
 		keep_going = False
 	elif answer == '6':

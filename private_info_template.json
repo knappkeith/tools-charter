@@ -1,0 +1,8 @@
+{
+    "credentials":[
+    {
+        "site":"stash",
+        "user_name":"YOUR_USER_NAME",
+        "password":"YOUR_PASSWORD"
+    }]
+}
