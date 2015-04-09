@@ -1,23 +1,15 @@
-001BD77F43FF
-001BD7694892
-001AC3339127 
-000004EF1027
-E86D5251A0F8
-000004224AFD
-000003A8BEA2
+*** Standard ***
+    001BD77F43FF
+    001BD7694892
+    001AC3339127
+    000004EF1027
+    E86D5251A0F8
+    000004224AFD
+    000003A8BEA2
 
-000005081DE4 - Has DVR Recordings
+*** Has DVR ***
+    000004B2036E
+    0000073D5CCA
 
-getRecordings: "../data/dvr/recordings_api.json",//GET
-
-
-# Recording History
-window.config.apis.Data.endpoints.getRecordingHistory = "../data/dvr/recordings_api.json";
-
-GRUNT
-
-in dest/models/RecordingHistories.js (lines 157 - 159)
-
-            // if (millisecondsThirtyDaysAgo < scheduledStartTime && scheduledStartTime < dateNow) {
-                filteredChildren.push(recording);
-            // }
+*** Has DVR Recordings ***
+    000005081DE4

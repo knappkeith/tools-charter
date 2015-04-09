@@ -1,0 +1,16 @@
+*** To Get Recordings ***
+    1.  Change in api_enpoints.js:
+
+        getRecordings: "../data/dvr/recordings_api.json",//GET
+
+
+** To Get Recording History **
+    1.  window.config.apis.Data.endpoints.getRecordingHistory = "../data/dvr/recordings_api.json";
+
+    2.  GRUNT
+
+    3.  in dest/models/RecordingHistories.js (lines 157 - 159)
+
+            // if (millisecondsThirtyDaysAgo < scheduledStartTime && scheduledStartTime < dateNow) {
+                filteredChildren.push(recording);
+            // }
