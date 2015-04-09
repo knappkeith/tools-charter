@@ -180,7 +180,7 @@ if __name__ == "__main__":
 		print ""
 		print "There are %d PRs in the Open Column:" % len(prs)
 		print ""
-		for pr in my_prs:
+		for pr in prs:
 			print chr(9).join([my_prs[pr],my_branches[pr],my_tickets[pr]])
 		print ""
 		if raw_input('Reload or Quit? (r/q): ') == 'r':
