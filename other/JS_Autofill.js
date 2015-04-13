@@ -15,4 +15,6 @@ Most of these are page dependant and will only do something when you are on the 
 javascript:(function(){document.getElementsByName('description')[0].value='This is a test \n\n\n\n did it work?';})();
 
 //When on a PR Page in Stash this will open a prompt that will have the branch name in it so all you have to do is Copy (Apple + C) and hit enter (to make window go away).
-javascript:(function(){window.prompt("Copy to clipboard: Ctrl+C, Enter", document.evaluate('//*[@id="content"]/div/div/section/header/div[1]/div[2]/span[1]/span/span[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML);})();
+javascript:(function(){window.prompt("Copy to clipboard: Ctrl+C, Enter", document.evaluate('//*[@id="aui-page-panel-content-body"]/div/section/header/div/div[1]/div[2]/span[1]/span/span[2]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML);})();
+
+
