@@ -72,7 +72,7 @@ def log_in(driver, url):
 def ensure_page(driver, url):
 	if driver.current_url != url:
 		goto_site(driver, url)
-		assert driver.current_url is url, 'Cannot go to url, %s' % url
+		assert driver.current_url == url, 'Cannot go to url, %s current url is %s' % (url, driver.current_url)
 
 
 def get_table(driver, pr_url, login_url):
@@ -119,7 +119,7 @@ def get_table_info(table_element):
 				pr_num = int(str(cell.text[1:]))
 				pr_link = str(cell.find_element_by_tag_name('a').get_attribute('href'))
 			elif cell_class == 'source':
-				pr_branch = str(cell.text[6:])
+				pr_branch = str(cell.text)
 		if pr_num is not '' and pr_link is not '' and pr_branch is not '':
 			pr_links[pr_num] = pr_link
 			pr_branches[pr_num] = pr_branch
