@@ -21,6 +21,14 @@ def parse_ticket_num(pr_name):
 		return None
 
 
+def parse_ticket_type(pr_branch):
+	words = pr_branch.split('/')
+	if len(words) > 1:
+		return words[0]
+	else:
+		return 'None'
+
+
 def open_browser():
 	browser = webdriver.Firefox()
 	return browser
@@ -47,7 +55,7 @@ def is_logged_in(driver):
 
 def is_on_vpn(driver):
 	try:
-		driver.find_element_by_id('offline-resources-1x')
+		driver.find_element_by_id('errorPageContainer')
 		return False
 	except NoSuchElementException:
 		return True
@@ -137,7 +145,7 @@ def format_ticket_hyperlinks(to_format):
 		if to_format[item] != None:
 			to_format[item] = '=hyperlink("https://jira.charter.com/browse/SPECGUIDE-%s","%s")' % (to_format[item], to_format[item])
 		else:
-			to_format[item] = 'Parse Error'
+			to_format[item] = 'None'
 	return to_format
 
 if __name__ == "__main__":
@@ -181,7 +189,7 @@ if __name__ == "__main__":
 		print "There are %d PRs in the Open Column:" % len(prs)
 		print ""
 		for pr in prs:
-			print chr(9).join([my_prs[pr],my_branches[pr],my_tickets[pr]])
+			print chr(9).join([my_prs[pr], my_branches[pr], parse_ticket_type(my_branches[pr]), my_tickets[pr]])
 		print ""
 		if raw_input('Reload or Quit? (r/q): ') == 'r':
 			browser.refresh()
