@@ -7,6 +7,20 @@ import sys
 from libs.personal_info import Personal_Info
 
 
+def get_reviewers(table_cell):
+	spans = table_cell.find_elements_by_tag_name('span')
+	approved_by = []
+	for span in spans:
+		classes = span.get_attribute('class')
+		if not 'badge-hidden' in classes and 'participant-item' in classes:
+			approved_by.append(span.get_attribute('data-username'))
+	if len(approved_by) > 0:
+		return_string = ', '.join(approved_by)
+	else:
+		return_string = '--'
+	return return_string
+
+
 def parse_ticket_num(pr_name):
 	words = pr_name.split("-")
 	for word in words:
@@ -26,7 +40,7 @@ def parse_ticket_type(pr_branch):
 	if len(words) > 1:
 		return words[0]
 	else:
-		return 'None'
+		return '--'
 
 
 def open_browser():
@@ -112,6 +126,7 @@ def get_table_info(table_element):
 	pr_links = {}
 	pr_branches = {}
 	pr_ticket_links = {}
+	pr_approvers = {}
 
 	# Get Table Rows
 	table_rows = table_element.find_elements(By.TAG_NAME, 'tr')
@@ -128,11 +143,14 @@ def get_table_info(table_element):
 				pr_link = str(cell.find_element_by_tag_name('a').get_attribute('href'))
 			elif cell_class == 'source':
 				pr_branch = str(cell.text)
+			elif cell_class == 'reviewers':
+				pr_reviewers = str(get_reviewers(cell))
 		if pr_num is not '' and pr_link is not '' and pr_branch is not '':
 			pr_links[pr_num] = pr_link
 			pr_branches[pr_num] = pr_branch
 			pr_ticket_links[pr_num] = parse_ticket_num(pr_branch)
-	return pr_links, pr_branches, pr_ticket_links
+			pr_approvers[pr_num] = pr_reviewers
+	return pr_links, pr_branches, pr_ticket_links, pr_approvers
 
 
 def format_pr_hyperlinks(to_format):
@@ -145,7 +163,7 @@ def format_ticket_hyperlinks(to_format):
 		if to_format[item] != None:
 			to_format[item] = '=hyperlink("https://jira.charter.com/browse/SPECGUIDE-%s","%s")' % (to_format[item], to_format[item])
 		else:
-			to_format[item] = 'None'
+			to_format[item] = '--'
 	return to_format
 
 if __name__ == "__main__":
@@ -176,7 +194,7 @@ if __name__ == "__main__":
 		table = get_table(browser, STASH_SITE_PR, STASH_SITE_LOGIN)
 
 		# Get all table data
-		my_prs, my_branches, my_tickets = get_table_info(table)
+		my_prs, my_branches, my_tickets, my_reviewers = get_table_info(table)
 
 		# formatt data for google docs
 		my_prs = format_pr_hyperlinks(my_prs)
@@ -189,7 +207,7 @@ if __name__ == "__main__":
 		print "There are %d PRs in the Open Column:" % len(prs)
 		print ""
 		for pr in prs:
-			print chr(9).join([my_prs[pr], my_branches[pr], parse_ticket_type(my_branches[pr]), my_tickets[pr]])
+			print chr(9).join([my_prs[pr], my_branches[pr], parse_ticket_type(my_branches[pr]), my_tickets[pr], my_reviewers[pr]])
 		print ""
 		if raw_input('Reload or Quit? (r/q): ') == 'r':
 			browser.refresh()
