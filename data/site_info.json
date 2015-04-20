@@ -1,0 +1,54 @@
+{
+    "jira":{
+        "site":"https://jira.charter.com/login.jsp",
+        "user_name_element":
+            {
+                "by":"id",
+                "name":"login-form-username"
+            },
+        "password_element":
+            {
+                "by":"id",
+                "name":"login-form-password"
+            },
+        "check_login_element":
+            {
+                "by":"id",
+                "name":"header-details-user-fullname",
+                "get_attribute":"data-username"
+            },
+        "additional_login_action": "None",
+        "logout_actions":
+            {
+                "by":["id","id"],
+                "name":["header-details-user-fullname","log_out"],
+                "action":["click","click"]
+            }
+    },
+    "stash":{
+        "site":"http://stash.dev-charter.net/stash/login",
+        "user_name_element":
+            {
+                "by":"id",
+                "name":"j_username"
+            },
+        "password_element":
+            {
+                "by":"id",
+                "name":"j_password"
+            },
+        "check_login_element":
+            {
+                "by":"id",
+                "name":"current-user",
+                "get_attribute":"data-username"
+            },
+        "additional_login_action": "None",
+        "logout_actions":
+            {
+                "by":["id","id"],
+                "name":["header-details-user-fullname","log_out"],
+                "action":["click","click"]
+            }
+    }
+}

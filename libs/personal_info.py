@@ -2,10 +2,10 @@ import json
 import os
 
 class Personal_Info(object):
-	def __init__(self, my_json='~/dev/charter/tools/private_info.json'):
+	def __init__(self, my_json='~/dev/charter/tools/data/private_info.json'):
 		self.pi_path = os.path.abspath(os.path.expanduser(my_json))
 		if not os.path.isfile(self.pi_path):
-			print "settings not found " + os.path.abspath(my_json)
+			raise NameError("settings not found " + os.path.abspath(my_json))
 		else:
 			self._open_json()
 			self._read_json()
@@ -33,8 +33,11 @@ class Personal_Info(object):
 				return creds['password']
 		return None
 
-	def return_category(self):
-		pass
+	def return_category(self, category):
+		try:
+			return self.pi_data[category]
+		except KeyError:
+			return None
 
 	def add_password(self):
 		pass
