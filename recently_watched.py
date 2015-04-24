@@ -7,8 +7,8 @@ ui_dir = 'skyuisp'
 set_path = 'skyuisp/dest/configs/'
 set_name = 'api_endpoints%s.js'
 search_line = """    getRecentlyWatched :"""
-new_line = '''        getRecentlyWatched : "../data/sampledata/canned_recentlyWatched.json"'''
-server_line = '''    getRecentlyWatched : "%server%/pub/viewinghistoryedge/v1/viewinghistory"'''
+new_line = '''        getRecentlyWatched : "../data/sampledata/canned_recentlyWatched.json",'''
+server_line = '''    getRecentlyWatched : "%server%/pub/viewinghistoryedge/v1/viewinghistory",'''
 # END OF SETTINGS
 
 # Find Path for /skyuisp/dest/config/api_endpoints.js
