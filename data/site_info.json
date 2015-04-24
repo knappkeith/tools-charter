@@ -46,8 +46,8 @@
         "additional_login_action": "None",
         "logout_actions":
             {
-                "by":["id","id"],
-                "name":["header-details-user-fullname","log_out"],
+                "by":["id","class name"],
+                "name":["current-user","logout-link"],
                 "action":["click","click"]
             }
     }

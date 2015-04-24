@@ -1,3 +1,4 @@
 .DS_Store
 *.pyc
 data/private_info.json
+cloud_tv/log.txt
