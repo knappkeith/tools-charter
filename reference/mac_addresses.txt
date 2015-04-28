@@ -13,3 +13,6 @@
 
 *** Has DVR Recordings ***
     000005081DE4
+
+*** Doesn't have Settings ***
+    000005081DE4
