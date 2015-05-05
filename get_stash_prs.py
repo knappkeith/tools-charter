@@ -1,11 +1,8 @@
 #! /usr/bin/env python
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 import sys
-from libs.personal_info import Personal_Info
-
+from libs.my_login import My_Login
 
 def get_reviewers(table_cell):
     spans = table_cell.find_elements_by_tag_name('span')
@@ -41,81 +38,6 @@ def parse_ticket_type(pr_branch):
         return words[0]
     else:
         return '--'
-
-
-def open_browser():
-    browser = webdriver.Firefox()
-    return browser
-
-
-def goto_site(driver, url):
-    driver.get(url)
-    return driver
-
-
-def is_logged_in(driver):
-    my_password, my_username = get_credits('stash')
-    try:
-        user_dropdown = driver.find_element_by_id('current-user')
-        cur_user = user_dropdown.get_attribute('data-username')
-        if my_username == cur_user:
-            return True
-        else:
-            print "Different User logged in: %s instead of %s" % (cur_user, my_username)
-            return True
-    except NoSuchElementException:
-        return False
-
-
-def is_on_vpn(driver):
-    try:
-        driver.find_element_by_id('errorPageContainer')
-        return False
-    except NoSuchElementException:
-        return True
-
-
-def get_credits(site):
-    my_info = Personal_Info()
-    p_w = my_info.get_password(site)
-    u_n = my_info.get_user_name(site)
-    return p_w, u_n
-
-
-def log_in(driver, url):
-    driver.get(url)
-    user_element = driver.find_element_by_id('j_username')
-    password_element = driver.find_element_by_id('j_password')
-    my_password, my_username = get_credits('stash')
-    user_element.send_keys(my_username)
-    password_element.send_keys(my_password + Keys.ENTER)
-
-
-def ensure_page(driver, url):
-    if driver.current_url != url:
-        goto_site(driver, url)
-        assert driver.current_url == url, 'Cannot go to url, %s current url is %s' % (url, driver.current_url)
-
-
-def get_table(driver, pr_url, login_url):
-    while True:
-        try:
-            return_table = driver.find_element_by_id('pull-requests-table')
-            return return_table
-        except NoSuchElementException:
-            if is_logged_in(driver):
-                pass
-            else:
-                log_in(driver, login_url)
-                ensure_page(driver, pr_url)
-
-
-def close_browser(driver):
-    try:
-        driver.close()
-        driver.quit()
-    except:
-        pass
 
 
 def get_table_info(table_element):
@@ -158,6 +80,7 @@ def format_pr_hyperlinks(to_format):
         to_format[item] = '=hyperlink("%s","%s")' % (to_format[item], item)
     return to_format
 
+
 def format_ticket_hyperlinks(to_format):
     for item in to_format:
         if to_format[item] != None:
@@ -166,52 +89,40 @@ def format_ticket_hyperlinks(to_format):
             to_format[item] = '--'
     return to_format
 
+
 if __name__ == "__main__":
     STASH_SITE_PR = 'http://stash.dev-charter.net/stash/projects/SG/repos/skyuisp/pull-requests'
-    STASH_SITE_LOGIN = 'http://stash.dev-charter.net/stash/login'
 
-    # Open Browser and Site for Stash
-    browser = open_browser()
-    goto_site(browser, STASH_SITE_PR)
-
-    # Check if on VPN
-    if not is_on_vpn(browser):
+    try:
+        my_stash = My_Login('stash')
+    except NoSuchElementException:
         print "Looks like you aren't on the VPN, Please Get on and try again!!!"
-        close_browser(browser)
+        my_stash.close_site()
         sys.exit()
 
-    # Check if logged in
-    if not is_logged_in(browser):
-        log_in(browser, STASH_SITE_LOGIN)
+    my_stash.wait_for_login_element(10,10)
 
-    # Ensure on PR Page
-    ensure_page(browser, STASH_SITE_PR)
+    my_stash.open_site(STASH_SITE_PR)
+    
+    # Get the Table
+    table = my_stash.get_element({"by":"id","name":"pull-requests-table"})
 
-    quit_bool = False
-    while not quit_bool:
-        
-        # Get the Table
-        table = get_table(browser, STASH_SITE_PR, STASH_SITE_LOGIN)
+    # Get all table data
+    my_prs, my_branches, my_tickets, my_reviewers = get_table_info(table)
 
-        # Get all table data
-        my_prs, my_branches, my_tickets, my_reviewers = get_table_info(table)
+    # formatt data for google docs
+    my_prs = format_pr_hyperlinks(my_prs)
+    my_tickets = format_ticket_hyperlinks(my_tickets)
 
-        # formatt data for google docs
-        my_prs = format_pr_hyperlinks(my_prs)
-        my_tickets = format_ticket_hyperlinks(my_tickets)
+    # Print everything out, sorted by prs
+    prs = my_prs.keys()
+    prs.sort()
+    print ""
+    print "There are %d PRs in the Open Column:" % len(prs)
+    print ""
+    for pr in prs:
+        print chr(9).join([my_prs[pr], my_branches[pr], parse_ticket_type(my_branches[pr]), my_tickets[pr], my_reviewers[pr]])
+    print ""
 
-        # Print everything out, sorted by prs
-        prs = my_prs.keys()
-        prs.sort()
-        print ""
-        print "There are %d PRs in the Open Column:" % len(prs)
-        print ""
-        for pr in prs:
-            print chr(9).join([my_prs[pr], my_branches[pr], parse_ticket_type(my_branches[pr]), my_tickets[pr], my_reviewers[pr]])
-        print ""
-        if raw_input('Reload or Quit? (r/q): ') == 'r':
-            browser.refresh()
-            print ""
-        else:
-            quit_bool = True
-    browser.close()
+    my_stash.logout()
+    my_stash.close_site()
