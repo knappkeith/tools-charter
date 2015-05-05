@@ -3,13 +3,19 @@ import pprint
 import os
 
 class My_Replacer(object):
-    def __init__(self, replace_array, arg_option=None):
+    def __init__(self, replace_array, arg_option={}):
         self.replace_dict = list(replace_array)
         self._arg_parse(arg_option)
 
 
     def _arg_parse(self, arg_option):
-        help_description = '''This is a tool that will switch such and such feature on and off'''
+        try:
+            help_description = arg_option['description']
+        except KeyError:
+            try:
+                help_description = arg_option['file']
+            except KeyError:
+                help_description = '''This is a tool that will replace a line of code in a file.'''
         parser = argparse.ArgumentParser(description=help_description)
         if "".join([self.replace_dict[x]['revert_line'] for x in range(len(self.replace_dict))]) is not "":
             parser.add_argument('--revert', action='store_true', help='to revert the action')
@@ -32,7 +38,7 @@ class My_Replacer(object):
                 print_line = "Reverting in %s"
                 try:
                     nline = change['revert_line']
-                except NameError:
+                except KeyError:
                     nline = ""
             else:
                 print_line = "Replacing in %s"
