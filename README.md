@@ -30,10 +30,13 @@ These are tools that have been made to help out with the testing of the SPECTRUM
 * Most common to use.
 * Will preform a line replacement in a file.
 * These scripts use the My_Replacer class in the libs folder.
-* To Run, `$ python REPLACE_LINE_SCRIPT.py` or `$ ./REPLACE_LINE_SCRIPT.py`
+* To Run:
+   * `$ python REPLACE_LINE_SCRIPT.py` or `$ ./REPLACE_LINE_SCRIPT.py`
    * If successful you will see `Replacing in {FILE_NAME}`
-* Most scripts can be reverted, `$ python REPLACE_LINE_SCRIPT.py --revert` or `$ ./REPLACE_LINE_SCRIPT.py --revert`
-* More help can be found, `$ python REPLACE_LINE_SCRIPT.py --help` or `$ ./REPLACE_LINE_SCRIPT.py --help`
+* Most scripts can be reverted:
+   * `$ python REPLACE_LINE_SCRIPT.py --revert` or `$ ./REPLACE_LINE_SCRIPT.py --revert`
+* More help can be found:
+   * `$ python REPLACE_LINE_SCRIPT.py --help` or `$ ./REPLACE_LINE_SCRIPT.py --help`
 
 #### Get Stash PRs:
 * Will Pull Open PR List from Stash
@@ -82,10 +85,10 @@ These are tools that have been made to help out with the testing of the SPECTRUM
 * Copy the Log from Cloud TV Player to Log.txt.
 * To Run, `$ python console_parser.py`
 * There will be several selections available:
-    1. Display Errors only
-    2. Display Events only
-    3. Display Log only
-    4. Display Warnings only
-    5. Display All
-    6. Reload the file, This will reload the file in case it has changed
-    7. EXIT
+    1. (1) Display Errors only
+    2. (2) Display Events only
+    3. (3) Display Log only
+    4. (4) Display Warnings only
+    5. (5) Display All
+    6. (6) Reload the file, This will reload the file in case it has changed
+    7. (7) EXIT
