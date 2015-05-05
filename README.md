@@ -29,10 +29,11 @@ These are tools that have been made to help out with the testing of the SPECTRUM
 #### Replace Line:
 * Most common to use.
 * Will preform a line replacement in a file.
-* Right now these are all their own scripts.
-* To Run, `$ python REPLACE_LINE_SCRIPT.py`
-   * If successful you will see `FOUND IT!! Replacing`
-* Most scripts can be reverted, `$ python REPLACE_LINE_SCRIPT.py revert`
+* These scripts use the My_Replacer class in the libs folder.
+* To Run, `$ python REPLACE_LINE_SCRIPT.py` or `$ ./REPLACE_LINE_SCRIPT.py`
+   * If successful you will see `Replacing in {FILE_NAME}`
+* Most scripts can be reverted, `$ python REPLACE_LINE_SCRIPT.py --revert` or `$ ./REPLACE_LINE_SCRIPT.py --revert`
+* More help can be found, `$ python REPLACE_LINE_SCRIPT.py --help` or `$ ./REPLACE_LINE_SCRIPT.py --help`
 
 #### Get Stash PRs:
 * Will Pull Open PR List from Stash
@@ -47,7 +48,44 @@ These are tools that have been made to help out with the testing of the SPECTRUM
 * This script is set up as an executable so to run, 
    - `$ ./get_stash_prs.py`
 * Copy and Paste the output into the Google Spreadsheet
-* You will notice a prompt that will ask for a refresh or not, if you have the resources you can leave this open forever and if you need to repull just type `r` and hit `ENTER`.  It will retreive the list faster than starting the script from scratch.  Otherwise type `q` and hit `ENTER`.
+
+#### Get Blocked Tickets:
+* Will Pull JIRA Ticket from the queues of the Dev Testers with a BLOCKED status.
+* This script does require selenium and Firefox.
+* Does require some setup:
+   1. goto tools directory, 
+      - `$ cd ~/dev/charter/tools`
+   2. copy private_info_template.json, 
+      - `$ cp private_info_template.json private_info.json`
+   3. open private_info.json and edit/add the user name and password for your JIRA Account.
+   4. save and close.
+* This script is set up as an executable so to run, 
+   - `$ ./blocked_jira_bugs.py`
+* Copy and Paste the output into the Google Spreadsheet
+
+#### Get Bugs in Triage Tickets:
+* Will Pull JIRA Tickets in the 'Bugs in Triage' Sprint.
+* This script does require selenium and Firefox.
+* Does require some setup:
+   1. goto tools directory, 
+      - `$ cd ~/dev/charter/tools`
+   2. copy private_info_template.json, 
+      - `$ cp private_info_template.json private_info.json`
+   3. open private_info.json and edit/add the user name and password for your JIRA Account.
+   4. save and close.
+* This script is set up as an executable so to run, 
+   - `$ ./jira_bugs_in_triage.py`
+* Copy and Paste the output into the Google Spreadsheet
 
 #### Cloud TV Log:
-* More description later, need to get to work.
+* Goto Cloud TV folder, `$ cd cloud_tv'
+* Copy the Log from Cloud TV Player to Log.txt.
+* To Run, `$ python console_parser.py`
+* There will be several selections available:
+    1. Display Errors only
+    2. Display Events only
+    3. Display Log only
+    4. Display Warnings only
+    5. Display All
+    6. Reload the file, This will reload the file in case it has changed
+    7. EXIT
