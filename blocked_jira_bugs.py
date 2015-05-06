@@ -37,16 +37,16 @@ def get_tickets(driver):
 
 if __name__ == "__main__":
     my_jira = My_Login('jira')
-
     my_jira.wait_for_login_element(10,10)
-
+    tk_cnt = 0
     filters = {
-        "keith":"https://jira.charter.com/browse/SPECGUIDE-7427?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(currentUser())%20ORDER%20BY%20updatedDate%20DESC",
-        "neil":"https://jira.charter.com/browse/SPECGUIDE-5841?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(nsatterfield)%20ORDER%20BY%20updatedDate%20DESC",
-        "ram":"https://jira.charter.com/browse/SPECGUIDE-5522?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(rraju1)%20ORDER%20BY%20updatedDate%20DESC",
-        "shaine":"https://jira.charter.com/browse/SPECGUIDE-8622?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(sthielke)%20ORDER%20BY%20updatedDate%20DESC"
+        "Keith":"https://jira.charter.com/browse/SPECGUIDE-7427?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(currentUser())%20ORDER%20BY%20updatedDate%20DESC",
+        "Neil":"https://jira.charter.com/browse/SPECGUIDE-5841?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(nsatterfield)%20ORDER%20BY%20updatedDate%20DESC",
+        "Ram":"https://jira.charter.com/browse/SPECGUIDE-5522?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(rraju1)%20ORDER%20BY%20updatedDate%20DESC",
+        "Shaine":"https://jira.charter.com/browse/SPECGUIDE-8622?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(sthielke)%20ORDER%20BY%20updatedDate%20DESC"
         }
 
+    print ""
     for name in filters:
         my_jira.open_site(filters[name])
         tickets = get_tickets(my_jira)
@@ -55,7 +55,10 @@ if __name__ == "__main__":
 
         for ticket in tickets:
             print chr(9).join([ticket, name, tickets[ticket]])
+            tk_cnt += 1
 
-
+    print ""
+    print "There are %d blocked tickets for %s." % (tk_cnt, ", ".join([x for x in filters]))
+    print ""
     my_jira.logout()
     my_jira.close_site()

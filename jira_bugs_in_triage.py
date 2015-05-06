@@ -62,9 +62,7 @@ if __name__ == '__main__':
     my_jira = My_Login('jira')
     my_jira.wait_for_login_element(10,10)
     my_jira.open_site('https://jira.charter.com/secure/RapidBoard.jspa?rapidView=166&view=planning.nodetail')
-
     my_table = find_table(my_jira)
-
     if not is_table_open(my_table):
         open_table(my_table)
 
@@ -76,10 +74,12 @@ if __name__ == '__main__':
         sys.exit()
 
     my_tickets = get_tickets(my_table)
+    print ""
     for info in get_infos(my_tickets):
         print chr(9).join(['=hyperlink("https://jira.charter.com/browse/SPECGUIDE-%s","%s")' % (info['num'], info['num']), info['description'], info['assignee']])
 
-
-
+    print ""
+    print "There are %d tickets in the Bugs in Triage Sprint." % len(my_tickets)
+    print ""
     my_jira.logout()
     my_jira.close_site()

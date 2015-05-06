@@ -92,7 +92,6 @@ def format_ticket_hyperlinks(to_format):
 
 if __name__ == "__main__":
     STASH_SITE_PR = 'http://stash.dev-charter.net/stash/projects/SG/repos/skyuisp/pull-requests'
-
     try:
         my_stash = My_Login('stash')
     except NoSuchElementException:
@@ -101,7 +100,6 @@ if __name__ == "__main__":
         sys.exit()
 
     my_stash.wait_for_login_element(10,10)
-
     my_stash.open_site(STASH_SITE_PR)
     
     # Get the Table
@@ -123,6 +121,5 @@ if __name__ == "__main__":
     for pr in prs:
         print chr(9).join([my_prs[pr], my_branches[pr], parse_ticket_type(my_branches[pr]), my_tickets[pr], my_reviewers[pr]])
     print ""
-
     my_stash.logout()
     my_stash.close_site()
