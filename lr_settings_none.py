@@ -5,7 +5,7 @@ script_desc = "This will force the setting to be read from a flat file that will
 replace = [{
     'file_path' : 'dest/configs/api_endpoints.js',
     'search_line' : """    networkSettings:""",
-    'new_line' : """    getRecordings: "../data/api/settings/newSTBSettings.json",""",
+    'new_line' : """    networkSettings: "../data/api/settings/newSTBSettings.json",""",
     'revert_line' : """    networkSettings: "%server%/pub/networksettingsedge/v1/settings/deviceid/STB%deviceid%?","""
 }]
 
