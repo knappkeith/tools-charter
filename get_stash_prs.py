@@ -90,7 +90,7 @@ def format_ticket_hyperlinks(to_format):
     return to_format
 
 
-if __name__ == "__main__":
+def main_puller():
     STASH_SITE_PR = 'http://stash.dev-charter.net/stash/projects/SG/repos/skyuisp/pull-requests'
     try:
         my_stash = My_Login('stash')
@@ -123,3 +123,6 @@ if __name__ == "__main__":
     print ""
     my_stash.logout()
     my_stash.close_site()
+
+if __name__ == "__main__":
+    main_puller()

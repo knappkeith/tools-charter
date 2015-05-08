@@ -58,7 +58,7 @@ def find_table(browser):
         if table_name.text == "Bugs in Triage":
             return table
 
-if __name__ == '__main__':
+def main_puller():
     my_jira = My_Login('jira')
     my_jira.wait_for_login_element(10,10)
     my_jira.open_site('https://jira.charter.com/secure/RapidBoard.jspa?rapidView=166&view=planning.nodetail')
@@ -83,3 +83,6 @@ if __name__ == '__main__':
     print ""
     my_jira.logout()
     my_jira.close_site()
+
+if __name__ == '__main__':
+    main_puller()

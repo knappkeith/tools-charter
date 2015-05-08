@@ -35,7 +35,7 @@ def get_tickets(driver):
         ticket_dict[ticket_link] = c
     return ticket_dict
 
-if __name__ == "__main__":
+def main_puller():
     my_jira = My_Login('jira')
     my_jira.wait_for_login_element(10,10)
     tk_cnt = 0
@@ -62,3 +62,6 @@ if __name__ == "__main__":
     print ""
     my_jira.logout()
     my_jira.close_site()
+
+if __name__ == "__main__":
+    main_puller()
