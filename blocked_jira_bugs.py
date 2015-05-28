@@ -2,6 +2,9 @@
 from libs.my_login import My_Login
 from selenium.common.exceptions import NoSuchElementException
 
+HYPERLINK_TEXT='=hyperlink("https://inspirato.atlassian.net/browse/WOODII-%s","%s")'
+# HYPERLINK_TEXT='=hyperlink("https://jira.charter.com/browse/SPECGUIDE-%s","%s")'
+
 def parse_ticket(stuff):
     words = stuff.split("-")
     for word in words:
@@ -28,7 +31,7 @@ def get_tickets(driver):
     for item in list_elem:
         try:
             b = item.get_attribute('data-key')
-            ticket_link = '=hyperlink("https://jira.charter.com/browse/SPECGUIDE-%s","%s")' % (parse_ticket(b), parse_ticket(b))
+            ticket_link = HYPERLINK_TEXT % (parse_ticket(b), parse_ticket(b))
             c = item.get_attribute('title')
         except:
             return None
@@ -36,14 +39,11 @@ def get_tickets(driver):
     return ticket_dict
 
 def main_puller():
-    my_jira = My_Login('jira')
+    my_jira = My_Login('jira-inspirato')
     my_jira.wait_for_login_element(10,10)
     tk_cnt = 0
     filters = {
-        "Keith":"https://jira.charter.com/browse/SPECGUIDE-7427?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(currentUser())%20ORDER%20BY%20updatedDate%20DESC",
-        "Neil":"https://jira.charter.com/browse/SPECGUIDE-5841?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(nsatterfield)%20ORDER%20BY%20updatedDate%20DESC",
-        "Ram":"https://jira.charter.com/browse/SPECGUIDE-5522?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(rraju1)%20ORDER%20BY%20updatedDate%20DESC",
-        "Shaine":"https://jira.charter.com/browse/SPECGUIDE-8622?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20status%20%3D%20Blocked%20AND%20assignee%20in%20(sthielke)%20ORDER%20BY%20updatedDate%20DESC"
+        "Keith":"https://inspirato.atlassian.net/browse/WOODII-925?filter=18100"
         }
 
     print ""
@@ -54,11 +54,11 @@ def main_puller():
             tickets = get_tickets(my_jira)
 
         for ticket in tickets:
-            print chr(9).join([ticket, name, tickets[ticket]])
+            print chr(9).join([ticket, tickets[ticket]])
             tk_cnt += 1
 
     print ""
-    print "There are %d blocked tickets for %s." % (tk_cnt, ", ".join([x for x in filters]))
+    print "There are %d tickets for %s." % (tk_cnt, ", ".join([x for x in filters]))
     print ""
     my_jira.logout()
     my_jira.close_site()

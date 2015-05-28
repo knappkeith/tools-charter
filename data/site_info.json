@@ -1,15 +1,15 @@
 {
-    "jira":{
-        "site":"https://jira.charter.com/login.jsp",
+    "jira-inspirato":{
+        "site":"https://inspirato.atlassian.net/login.jsp",
         "user_name_element":
             {
                 "by":"id",
-                "name":"login-form-username"
+                "name":"username"
             },
         "password_element":
             {
                 "by":"id",
-                "name":"login-form-password"
+                "name":"password"
             },
         "check_login_element":
             {
